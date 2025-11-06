@@ -38,7 +38,14 @@ jobs:
         run: |
           python -c "import nltk; nltk.download('stopwords')"
 
-      # Step 6: Execute notebook
+      # Step 6: Setup data directory
+      - name: Setup data directory
+        run: |
+          mkdir -p data
+          # Copy Sheet_1.csv to data directory if it exists in root
+          cp Sheet_1.csv data/ 2>/dev/null || echo "Using existing data file"
+
+      # Step 7: Execute notebook
       - name: Run Jupyter Notebook
         run: |
           jupyter nbconvert --execute --to notebook --inplace Chatbot_day2.ipynb
